@@ -18,7 +18,22 @@
     <input id="new-list-name" type="text" placeholder="list name">
     <button id="new-list-button">save</button>
     <pre id="list-details-json"></pre>
-  </section>
+  </section> 
+ <section>
+  <form method="post" onsubmit="return addExpenses();">
+    <label for="amount">Amount:</label><br>
+    <input type="number" id="amount" name="amount" value="0"><br>
+    <label for="date">Date:</label><br>
+    <input type="date" id="date" name="date" value="gg/mm/aa"><br><br>
+    <label for="description">Description:</label><br>
+    <input type="text" id="description" name="description" value="abc"><br><br>
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" value="def"><br><br>
+    <label for="tags">Tags(insert tags separated by comma):</label><br> 
+    <input type="text" id="tags" name="tags" value="pippo"><br><br>
+    <input type="submit" value="Submit">
+  </form> 
+ </section>
   <script>
     // const baseUrl = 'https://private-0b242-expensestracker.apiary-mock.com'
     // const baseUrl = 'http://localhost:8080'
@@ -77,8 +92,37 @@
 
       option.text = text
       option.value = '/lists/' + value
-
       return option
+    }
+
+    function addExpenses(){
+      var date = document.getElementById("date").value
+      var description = document.getElementById("description").value
+      var title = document.getElementById("title").value
+      var amount = document.getElementById("amount").value
+      var tags = document.getElementById("tags").value
+
+      var array = tags.split(",");
+
+      var data = {
+      "date" : date, 
+      "description" : description,
+      "title" : title,
+      "amount" : amount,
+      "tags" : array
+      }
+
+  
+      return fetch(baseUrl + '/lists/:list_id/expenses/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data })
+      })
+      .then(response => response.json())
+      .then(console.log)
+      .catch(console.error) 
     }
   </script>
 </body>
