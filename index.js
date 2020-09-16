@@ -25,11 +25,11 @@ app.post('/lists', function (req, res) {
   res.json(list)
 })
 
-app.post('/lists/:list_id/expenses', function(req, res) {
+app.post('/lists/:list_id/expenses', function (req, res) {
   const expense = req.body
   expense.id = expenses.length
   expenses.push(expense)
-  res.setHeader('Location', '/lists/:list_id/expenses/' + expense.id)
+  res.setHeader('Location', '/lists/' + req.params.list_id + '/expenses/' + expense.id)
   res.json(expense)
 })
 
